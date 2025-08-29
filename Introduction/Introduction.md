@@ -40,3 +40,36 @@ A constructor is a special method that is automatically called when an object of
 - It *usually* initializes fields or properties of the class
 - Constructors do not have a return type (not even `void`)
 - If you don't explicitly define one, C# provides a default constructor.
+
+## 1.3. Using object reference
+
+- In C#, when we create an object using `new`, what we actually store in a variable is **a reference to that object in memory**, not the object itself.
+- A reference is like an "address" or a "pointer" to where the object lives in memory.
+- Multiple variables can refer or point to the same object, meaning if you change the object through one reference, it will be reflected when accessed through the other reference.
+
+```csharp
+int num1 = 12;
+int num2;
+
+num2 = num1;
+
+num1 = 15;
+
+Console.WriteLine(num1); // 15
+Console.WriteLine(num2); // 12
+
+var test11 = new LoginTest
+{
+  Username = "user",
+  Password = "password"
+};
+
+LoginTest test12;
+
+test12 = test11;
+
+test11.Username = "other user";
+
+Console.WriteLine(test11.Username); // other user
+Console.WriteLine(test12.Username); // other user
+```

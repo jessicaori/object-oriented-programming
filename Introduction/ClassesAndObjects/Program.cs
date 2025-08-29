@@ -17,7 +17,7 @@
   public class LoginTest
   {
     // Attributes (fields/properties)
-    public required string Username { get; init; }
+    public required string Username { get; set; }
     public required string Password { get; init; }
 
     // Method (behavior)
@@ -31,9 +31,53 @@
 
   public class TestCaseBad
   {
-    public string Name;
+    public string Name = string.Empty;
     public int Priority;
-    public string Status;
+    public string Status = string.Empty;
+  }
+
+  public class TestCase(string name, int priority)
+  {
+    // Fields (should never be public)
+    private string _name = name;
+    // TODO: Turn this into an enum
+    private int _priority = priority;
+
+    // Properties (public-facing)
+    public string Status { get; private set; } = "Not Executed";
+
+    // public TestCase(string name, int priority)
+    // {
+    //   _name = name;
+    //   _priority = priority;
+    //   Status = "Not Executed";
+    // }
+
+    // Fields
+    // - Store raw data
+    // - Should usually be private
+    // - Good when internal-only data is needed
+    // - We need to process the data before exposing
+
+    // Properties
+    // - Expose data to the outside world in a controlled way (validations, encapsualtion, immutability)
+
+    // Method to simulate running the test
+    public void RunTest()
+    {
+      // Logic for execution (simulated)
+      Status = "Passed";
+    }
+
+    public string GetInfo()
+    {
+      //return $"{_name}, Priority: {_priority} - Status: {Status}";
+      return $"""
+        {_name}
+        Priority: {_priority}
+        Status: {Status}
+        """;
+    }
   }
 
   public class Program
@@ -72,7 +116,7 @@
       };
 
       Console.WriteLine($"Test 2 Passed: {test2.Execute()}");
-      
+
       // Each object (test1, test2) is a different execution of the same blueprint.
 
       // - Reusability: Once defined, you can reuse the class in different parts of your code.
@@ -91,6 +135,15 @@
       // Problems
       // - Without a constructor, you risk leaving objects in an invalid state (null or default values)
       // - This makes tests unreliable, just like running an automation test without proper setup.
+
+      var loginTest = new TestCase("Login with valida credentials", 1);
+      Console.WriteLine(loginTest.GetInfo());
+      loginTest.RunTest();
+      Console.WriteLine(loginTest.GetInfo());
+
+      // Note: Don't code for yourself if you want to write good code think others will see your code.
+
+      
     }
   }
 }
