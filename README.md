@@ -32,3 +32,9 @@ dotnet run --project InvoiceApp
 ## 6. Run tests
 
 dotnet test
+
+# How to contribute to the project
+
+If you know git you can use the following tutorial:
+
+https://www.youtube.com/watch?v=YaToH3s_-nQ
