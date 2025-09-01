@@ -8,13 +8,57 @@
 
 Imagine we want to represent a Test Case in an automation framework:
 
-- A test case has attributes like Id, Name, Steps.
-- It also has behavior liek `Execute()` that actually runs the test.
-- The id once the test is created shouldn't be modified and also it is required.
-- The Name can be modified after the test has been initialized
-- The Steps can be modified after the test has been initialized 
+Caracteristics:
+
+- A test case has attributes like Id, Title, Priority, Priority, FailureReason.
+- Id: This should be automatically generated.
+- Title: We can modify the title but, we are going to validate the title. 
+  - Max length 120
+  - We need to expose the limit
+  - The title should not be null or white space
+- Priority: The priority should have an initial priority.
+  - We can change the priority after the test case was created.
+  - The priority can be P1, P2, P3, P4. Where P1 is the highest priority.
+- Status: The status can be NotRun, Passed or Failure.
+- FailureReason: This can be null or 150 max length
+
+Behavior:
+
+- We need a way to know if the test case is high priority.
+- ....
+- The exuction of the test should be dynamic. This means we can add any behavior in the testcase.
 
 ## When creating a class...
 
 ...it is important to remember that we need to defined depending on the context.
 ...since the context is important, most of the time diagrams can save us time when looking at a class.
+
+# Notes
+
+- We need to avoid the magic values (commonly numbers or strings)
+- We can have two constructors as well:
+
+```csharp
+public TestCase(string title)
+{
+  _title = title;
+  Priority = DefaultPriority;
+}
+
+public TestCase(string title, string priority)
+{
+  _title = title;
+  Priority = priority;
+}
+```
+
+- We can have as many constructors as needed
+```csharp
+public class ApiClient
+{
+  public ApiClient() {}
+  public ApiClient(string baseUrl) {}
+  public ApiClient(string baseUrl, int timeout) {}
+  public ApiClient(string baseUrl, int timeout, string key) {}
+}
+```
