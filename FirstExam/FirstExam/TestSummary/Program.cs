@@ -68,16 +68,16 @@ foreach (var r in rows)
     passed++;
   }
   else if (status == "FAIL")
-      {
-        failed++;
-        var key = suite + "/" + test;
+  {
+    failed++;
+    var key = suite + "/" + test;
 
-        if (!seenFail.Contains(key))
-        {
-          failingTests.Add(key);
-          seenFail.Add(key);
-        }
-      }
+    if (!seenFail.Contains(key))
+    {
+      failingTests.Add(key);
+      seenFail.Add(key);
+    }
+  }
 }
 
 Console.WriteLine("==== Test Summary ====");
