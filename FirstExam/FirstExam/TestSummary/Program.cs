@@ -34,8 +34,17 @@ var seenFail = new HashSet<string>();
 for (int i = 0; i < lines.Count; i++)
 {
   var l = lines[i].Trim();
-  if (l.Length == 0) continue;
-  if (i == 0 && l.StartsWith("Suite,TestName,Status")) continue; // skip header
+
+  if (l.Length == 0)
+  {
+    continue; // skip empty lines
+  }
+  
+  if (i == 0 && l.StartsWith("Suite,TestName,Status"))
+  {
+    continue; // skip header
+  }
+
   var parts = l.Split(',');
 
   if (parts.Length < 5)
@@ -53,9 +62,11 @@ foreach (var r in rows)
   var suite = r[0].Trim();
   var test = r[1].Trim();
   var status = r[2].Trim().ToUpperInvariant();
-  // duration (r[3]) and timestamp (r[4]) ignored in this tiny version
 
-  if (status == "PASS") passed++;
+  if (status == "PASS")
+  {
+    passed++;
+  }
   else if (status == "FAIL")
   {
     failed++;
