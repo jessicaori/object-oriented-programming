@@ -3,24 +3,27 @@ using TestDocCli.Model;
 
 namespace TestDocCli.AppCore;
 
-public static class PromptFlow
+public class PromptFlow(IInputReader inputReader, IConsole console) : IPromptFlow
 {
-  public static TestDocument CollectTestDocument(IInputReader inputReader, IConsole console)
-  {
-    console.WriteLine("Test Documentation Generator\n");
+  private readonly IInputReader _inputReader = inputReader ?? throw new ArgumentNullException();
+  private readonly IConsole _console = console ?? throw new ArgumentNullException();
 
-    string title = inputReader.ReadRequired("Title");
-    string description = inputReader.ReadRequired("Description");
+  public TestDocument CollectTestDocument()
+  {
+    _console.WriteLine("Test Documentation Generator\n");
+
+    string title = _inputReader.ReadRequired("Title");
+    string description = _inputReader.ReadRequired("Description");
 
     List<string> steps = [];
-    console.WriteLine("Enter Steps (one per line). Submit an empty line to finish:");
+    _console.WriteLine("Enter Steps (one per line). Submit an empty line to finish:");
 
     int stepNumber = 1;
 
     while (true)
     {
       string prompt = $"Step {stepNumber}: ";
-      string line = inputReader.ReadLine(prompt);
+      string line = _inputReader.ReadLine(prompt);
 
       if (string.IsNullOrWhiteSpace(line))
       {
@@ -31,8 +34,8 @@ public static class PromptFlow
       stepNumber++;
     }
 
-    string expected = inputReader.ReadRequired("Expected Result");
-    string actual = inputReader.ReadRequired("Actual Result");
+    string expected = _inputReader.ReadRequired("Expected Result");
+    string actual = _inputReader.ReadRequired("Actual Result");
 
     return new TestDocument
     {

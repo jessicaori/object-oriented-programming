@@ -5,6 +5,8 @@ namespace TestDocCli.Formatters;
 
 public sealed class HtmlFormatter : IOutputFormatter
 {
+  public string FileExtension => "html";
+
   public string Format(TestDocument document)
   {
     StringBuilder builder = new();

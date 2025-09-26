@@ -1,27 +1,25 @@
-﻿using TestDocCli.AppCore;
-using TestDocCli.Formatters;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using TestDocCli.AppCore;
 using TestDocCli.InputOutput;
-using TestDocCli.Model;
 
-try
-{
-  string formatedArgument = Arguments.ReadOption(args, "--format") ?? string.Empty;
-  IOutputFormatter formatter = FormatterFactory.Create(formatedArgument);
+HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
-  IConsole console = new SystemConsole();
-  IInputReader inputReader = new ConsoleInputReader(console);
+// Bind simple options from command-line
+builder.Services.Configure<AppSettings>(builder.Configuration);
 
-  TestDocument testDocument = PromptFlow.CollectTestDocument(inputReader, console);
+// Core services
+builder.Services.AddSingleton<IConsole, SystemConsole>();
+builder.Services.AddSingleton<IInputReader, ConsoleInputReader>();
+builder.Services.AddSingleton<IOutputFormatterFactory, OutputFormatterFactory>();
+builder.Services.AddSingleton<IPromptFlow, PromptFlow>();
+builder.Services.AddSingleton<IFileExporter, FileExporter>();
 
-  string output = formatter.Format(testDocument);
+// App host
+builder.Services.AddHostedService<AppHostedService>();
 
-  console.WriteLine(output);
-}
-catch (Exception exception)
-{
-  Console.Error.WriteLine("ERROR: " + exception.Message);
-  Environment.ExitCode = 1;
-}
+using IHost host = builder.Build();
+await host.RunAsync();
 
 // We are defining the following
 // WE have a IConsole where we can define the console operations for write and read

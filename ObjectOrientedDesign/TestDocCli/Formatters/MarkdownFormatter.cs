@@ -5,6 +5,8 @@ namespace TestDocCli.Formatters;
 
 public sealed class MarkdownFormatter : IOutputFormatter
 {
+  public string FileExtension => "md";
+
   public string Format(TestDocument document)
   {
     var builder = new StringBuilder();

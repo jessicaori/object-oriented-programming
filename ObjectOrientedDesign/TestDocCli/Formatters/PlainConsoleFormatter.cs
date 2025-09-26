@@ -5,6 +5,8 @@ namespace TestDocCli.Formatters;
 
 public sealed class PlainConsoleFormatter : IOutputFormatter
 {
+  public string FileExtension => "txt";
+
   public string Format(TestDocument document)
   {
     var builder = new StringBuilder();
