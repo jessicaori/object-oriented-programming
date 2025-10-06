@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TestDocCli.AppCore;
 using TestDocCli.Errors;
@@ -20,7 +20,7 @@ catch (KnownUserErrorException knownUserError)
 {
   var reporter = new ErrorReporter();
   reporter.Write("ERROR", knownUserError.Message);
-  Environment.ExitCode = knownUserError.ExitCode;
+  Environment.ExitCode = (int)knownUserError.ExitCode;
 }
 catch (Exception exception)
 {
@@ -29,8 +29,3 @@ catch (Exception exception)
   Environment.ExitCode = 1;
 }
 
-// We are defining the following
-// WE have a IConsole where we can define the console operations for write and read
-//  - The read opeartion might complex so, we created a different class that will implement IConsole (or not) to perform the read operation
-
-// TODO: [UPDATE] Create the diagram of this project v2.
